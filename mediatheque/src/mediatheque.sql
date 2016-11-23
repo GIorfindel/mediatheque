@@ -16,16 +16,15 @@ CREATE table Mediatheque.Personne(
   adresse_id integer references Adresse(adresse_id)
 );
 
-create table Mediatheque.bibliothecaire(
+create table Mediatheque.Bibliothecaire(
   bibliothecaire_id integer primary key references Personne(personne_Id),
   login varchar(20),
   mdp varchar(20)
 );
 
 CREATE table Mediatheque.Auteur(
-  auteur_id integer primary key
+  auteur_id integer primary key references Personne(personne_Id)
 );
-alter table Mediatheque.Auteur add foreign key (auteur_id) references Mediatheque.Personne;
 
 create table Mediatheque.Editeur(
   editeur_id integer generated always as identity primary key,

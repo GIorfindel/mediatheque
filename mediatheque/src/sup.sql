@@ -1,0 +1,14 @@
+drop table Mediatheque.CreePar;
+drop table Mediatheque.Editeur;
+drop table Mediatheque.Edition;
+drop table Mediatheque.Emprunte;
+drop table Mediatheque.EstGenre;
+drop table Mediatheque.Genre;
+drop table Mediatheque.Livre;
+drop table Mediatheque.Media;
+drop table Mediatheque.Type;
+drop table Mediatheque.Adherent;
+drop table Mediatheque.Auteur;
+drop table Mediatheque.Bibliothecaire;
+drop table Mediatheque.Personne;
+drop table Mediatheque.Adresse;
