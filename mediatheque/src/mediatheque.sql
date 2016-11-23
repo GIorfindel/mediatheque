@@ -16,6 +16,12 @@ CREATE table Mediatheque.Personne(
   adresse_id integer references Adresse(adresse_id)
 );
 
+create table Mediatheque.bibliothecaire(
+  bibliothecaire_id integer primary key references Personne(personne_Id),
+  login varchar(20),
+  mdp varchar(20)
+);
+
 CREATE table Mediatheque.Auteur(
   auteur_id integer primary key
 );
@@ -34,7 +40,8 @@ create table Mediatheque.Type(
 
 create table Mediatheque.Media(
   media_id integer generated always as identity primary key,
-  type_id integer references Type(type_id)
+  type_id integer references Type(type_id),
+  nbExemplaires integer
 );
 
 create table Mediatheque.Edition(
@@ -66,20 +73,14 @@ create table Mediatheque.EstGenre(
   primary key (media_id, genre_id)
 );
 
-create table Mediatheque.Mediatheque(
+/*create table Mediatheque.Mediatheque(
     mediatheque_id integer generated always as identity primary key,
     nom varchar(20),
     adresse_id integer references Adresse(adresse_id)
-);
+);*/
 
 create table Mediatheque.Adherent(
   adherent_id integer primary key references Personne(personne_Id)
-);
-
-create table Mediatheque.Adhere(
-  id_adherent integer references Adherent(adherent_id),
-  id_mediatheque integer references Mediatheque(mediatheque_id),
-  primary key (id_adherent, id_mediatheque)
 );
 
 create table Mediatheque.Emprunte(
@@ -87,6 +88,5 @@ create table Mediatheque.Emprunte(
   dateRetour date,
   id_media integer references Media(media_id),
   id_adherent integer references Adherent(adherent_id),
-  id_mediatheque integer references Mediatheque(mediatheque_id),
-  primary key (dateRetour, dateEmprunt, id_media, id_adherent, id_mediatheque)
+  primary key (dateRetour, dateEmprunt, id_media, id_adherent)
 );
