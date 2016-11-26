@@ -1,0 +1,10 @@
+label{
+    display:inline-block;
+    width:100px;
+}
+
+.ligne{
+    float:left;
+    width:400px;
+}
+
