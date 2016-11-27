@@ -4,6 +4,6 @@
     Author     : glorfindel
 --%>
 
-<label>Nom: </label><input type='text' name='nom'><br/>
-<label>Prenom: </label><input type='text' name='prenom'><br/>
-<label>Téléphone: </label><input type='text' name='tel'><br/>
+<label>Nom: </label><input type='text' name='nom' required><br/>
+<label>Prenom: </label><input type='text' name='prenom' required><br/>
+<label>Téléphone: </label><input type='text' name='tel' required><br/>

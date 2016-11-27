@@ -4,7 +4,7 @@
     Author     : glorfindel
 --%>
 
-<label>Pays: </label><input type='text' name='pays'><br/>
-<label>Ville: </label><input type='text' name='ville'><br/>
-<label>Rue: </label><input type='text' name='rue'><br/>
-<label>Numéro: </label><input type='text' name='num'><br/>
+<label>Pays: </label><input type='text' name='pays' required><br/>
+<label>Ville: </label><input type='text' name='ville' required><br/>
+<label>Rue: </label><input type='text' name='rue' required><br/>
+<label>Numéro: </label><input type='text' name='num' required><br/>

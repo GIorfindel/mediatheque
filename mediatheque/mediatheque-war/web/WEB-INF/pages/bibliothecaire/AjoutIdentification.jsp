@@ -5,5 +5,5 @@
 --%>
 
 <h5>Informations d'identification: </h5>
-<label>Pseudo: </label><input type='text' name='pseudo'><br/>
-<label>Mot de passe: </label><input type='password' name='mdp'><br/>
+<label>Pseudo: </label><input type='text' name='pseudo' required><br/>
+<label>Mot de passe: </label><input type='password' name='mdp' required><br/>
