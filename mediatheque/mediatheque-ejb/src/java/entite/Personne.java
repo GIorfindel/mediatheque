@@ -52,11 +52,11 @@ public class Personne implements Serializable {
     @Size(max = 10)
     @Column(name = "TELEPHONE")
     private String telephone;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "personne")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "personne")
     private Auteur auteur;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "personne")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "personne")
     private Bibliothecaire bibliothecaire;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "personne")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "personne")
     private Adherent adherent;
     @JoinColumn(name = "ADRESSE_ID", referencedColumnName = "ADRESSE_ID")
     @ManyToOne

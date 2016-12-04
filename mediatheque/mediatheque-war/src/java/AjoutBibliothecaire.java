@@ -12,12 +12,12 @@ import entite.Personne;
 import entite.PersonneFacadeLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static jdk.nashorn.internal.objects.NativeJava.type;
 
 /**
  *
@@ -85,28 +85,36 @@ public class AjoutBibliothecaire extends HttpServlet {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String tel = request.getParameter("tel");
-        Personne p = new Personne();
-        p.setNom(nom);
-        p.setPrenom(prenom);
-        p.setTelephone(tel);
-        int adrId = Integer.parseInt(request.getParameter("adrId"));
-        Adresse a = new Adresse(adrId);
-        p.setAdresseId(a);
+        String adrId = request.getParameter("adrId");
         String pseudo = request.getParameter("pseudo");
         String mdp = request.getParameter("mdp");
 
-        //b.setPersonne(personneFacade.find(p));
-        Bibliothecaire b = new Bibliothecaire();
-        b.setLogin("test");
-        b.setMdp("test");
-        personneFacade.create(p,b);
-
-        //b.setBibliothecaireId(new Personne(7).getPersonneId());
-        //b.setPersonne(new Personne(7));
-        //if (mdp!=null && pseudo != null)
-        //{
-        //    bibliothecaireFacade.create(b);
+        if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
+            request.getSession().setAttribute("errNom", "<p>Le nom doit contenir 5 à 20 lettres</p>");
+        } else if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
+            request.getSession().setAttribute("errPrenom", "Le prénom doit contenir 5 à 20 lettres");
+        } else if (tel.trim().equals("") || !Pattern.matches("0[0-9]{9,9}", tel)) {
+            request.getSession().setAttribute("errTel", "Un numéro de téléphone contient 10 chiffres et commence par 0");
+        } else if (pseudo.trim().equals("") || !Pattern.matches(".{5,20}", pseudo)) {
+            request.getSession().setAttribute("errPseudo", "Votre pseudo doit contenir 5 à 20 caractères");
+        } //else if (bibliothecaireFacade.find(pseudo)) {
+            //request.getSession().setAttribute("errPseudo", "Ce pseudo est déjà utilisé");
         //}
+        else if (mdp.trim().equals("") || !Pattern.matches(".{5,20}", mdp)) {
+            request.getSession().setAttribute("errMdp", "Votre pseudo doit contenir 5 à 20 caractères");
+        }
+        else {
+            Personne p = new Personne();
+            p.setNom(nom);
+            p.setPrenom(prenom);
+            p.setTelephone(tel);
+            Adresse a = new Adresse(Integer.parseInt(adrId));
+            p.setAdresseId(a);
+            Bibliothecaire b = new Bibliothecaire();
+            b.setLogin(pseudo);
+            b.setMdp(mdp);
+            personneFacade.create(p, b);
+        }
         response.sendRedirect("admin.jsp");
         processRequest(request, response);
     }

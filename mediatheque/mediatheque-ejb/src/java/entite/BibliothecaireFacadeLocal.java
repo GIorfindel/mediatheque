@@ -20,13 +20,17 @@ public interface BibliothecaireFacadeLocal {
     void edit(Bibliothecaire bibliothecaire);
 
     void remove(Bibliothecaire bibliothecaire);
+    
+    void remove(int id);
 
     Bibliothecaire find(Object id);
+
+    Boolean find(String pseudo);
 
     List<Bibliothecaire> findAll();
 
     List<Bibliothecaire> findRange(int[] range);
 
     int count();
-        
+
 }

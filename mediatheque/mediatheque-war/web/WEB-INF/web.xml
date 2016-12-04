@@ -28,6 +28,14 @@
         <servlet-name>AjoutAdresse</servlet-name>
         <servlet-class>AjoutAdresse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Bibliothecairelist</servlet-name>
+        <servlet-class>Bibliothecairelist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SupBibliothecaire</servlet-name>
+        <servlet-class>SupBibliothecaire</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Admin_Client</servlet-name>
         <url-pattern>/Admin_Client</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>AjoutAdresse</servlet-name>
         <url-pattern>/AjoutAdresse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Bibliothecairelist</servlet-name>
+        <url-pattern>/Bibliothecairelist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SupBibliothecaire</servlet-name>
+        <url-pattern>/SupBibliothecaire</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

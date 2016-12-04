@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import entite.AdresseFacadeLocal;
+import entite.BibliothecaireFacadeLocal;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author glorfindel
  */
-public class AdresseList extends HttpServlet {
+public class Bibliothecairelist extends HttpServlet {
 
     @EJB
-    private AdresseFacadeLocal adresseFacade;
+    private BibliothecaireFacadeLocal bibliothecaireFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,8 +33,6 @@ public class AdresseList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //List lAdresses = adresseFacade.findAll();
-        //request.setAttribute("adressesList", lAdresses);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,8 +47,8 @@ public class AdresseList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List lAdresses = adresseFacade.findAll();
-        request.setAttribute("adressesList", lAdresses);
+        List lBib = bibliothecaireFacade.findAll();
+        request.setAttribute("bibList", lBib);
         processRequest(request, response);
     }
 

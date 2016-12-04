@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-import entite.AdresseFacadeLocal;
+import entite.BibliothecaireFacadeLocal;
+import entite.Personne;
+import entite.PersonneFacadeLocal;
 import java.io.IOException;
-import java.util.List;
-import javax.ejb.EJB;
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +18,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author glorfindel
  */
-public class AdresseList extends HttpServlet {
+public class SupBibliothecaire extends HttpServlet {
 
-    @EJB
-    private AdresseFacadeLocal adresseFacade;
+    private BibliothecaireFacadeLocal bibliothecaireFacade;
+    private PersonneFacadeLocal personneFacade;
+    private EntityManager em;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,8 +35,6 @@ public class AdresseList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //List lAdresses = adresseFacade.findAll();
-        //request.setAttribute("adressesList", lAdresses);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,8 +49,6 @@ public class AdresseList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List lAdresses = adresseFacade.findAll();
-        request.setAttribute("adressesList", lAdresses);
         processRequest(request, response);
     }
 
@@ -65,6 +63,19 @@ public class AdresseList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("bibId"));
+
+        //bibliothecaireFacade.remove(21);
+        //Bibliothecaire b = bibliothecaireFacade.find(id);
+        //Bibliothecaire b = new Bibliothecaire();
+        //b=bibliothecaireFacade.find(id);
+        //Bibliothecaire b = new Bibliothecaire(id);
+        //bibliothecaireFacade.remove(b);
+        Personne p = personneFacade.find(id);
+        //Personne p = new Personne(id);
+        request.getSession().setAttribute("idb",id);
+        personneFacade.remove(p);
+        response.sendRedirect("admin.jsp");
         processRequest(request, response);
     }
 
