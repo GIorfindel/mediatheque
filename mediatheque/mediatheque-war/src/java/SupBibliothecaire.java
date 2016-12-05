@@ -8,6 +8,7 @@ import entite.BibliothecaireFacadeLocal;
 import entite.Personne;
 import entite.PersonneFacadeLocal;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SupBibliothecaire extends HttpServlet {
 
-    private BibliothecaireFacadeLocal bibliothecaireFacade;
+    @EJB
     private PersonneFacadeLocal personneFacade;
-    private EntityManager em;
+    private BibliothecaireFacadeLocal bibliothecaireFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -71,10 +72,10 @@ public class SupBibliothecaire extends HttpServlet {
         //b=bibliothecaireFacade.find(id);
         //Bibliothecaire b = new Bibliothecaire(id);
         //bibliothecaireFacade.remove(b);
-        Personne p = personneFacade.find(id);
+        //Personne p = personneFacade.find(id);
         //Personne p = new Personne(id);
-        request.getSession().setAttribute("idb",id);
-        personneFacade.remove(p);
+        request.getSession().setAttribute("idb", id);
+        personneFacade.remove(personneFacade.find(id));
         response.sendRedirect("admin.jsp");
         processRequest(request, response);
     }

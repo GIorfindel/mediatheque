@@ -90,18 +90,18 @@ public class AjoutBibliothecaire extends HttpServlet {
         String mdp = request.getParameter("mdp");
 
         if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
-            request.getSession().setAttribute("errNom", "<p>Le nom doit contenir 5 à 20 lettres</p>");
-        } else if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
-            request.getSession().setAttribute("errPrenom", "Le prénom doit contenir 5 à 20 lettres");
-        } else if (tel.trim().equals("") || !Pattern.matches("0[0-9]{9,9}", tel)) {
-            request.getSession().setAttribute("errTel", "Un numéro de téléphone contient 10 chiffres et commence par 0");
-        } else if (pseudo.trim().equals("") || !Pattern.matches(".{5,20}", pseudo)) {
-            request.getSession().setAttribute("errPseudo", "Votre pseudo doit contenir 5 à 20 caractères");
+            request.getSession().setAttribute("errNom", "<span class='err'>Le nom doit contenir 5 à 20 lettres</span>");
+        } if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
+            request.getSession().setAttribute("errPrenom", "<span class='err'>Le prénom doit contenir 5 à 20 lettres</span>");
+        } if (tel.trim().equals("") || !Pattern.matches("0[0-9]{9,9}", tel)) {
+            request.getSession().setAttribute("errTel", "<span class='err'>Un numéro de téléphone contient 10 chiffres et commence par 0</span>");
+        } if (pseudo.trim().equals("") || !Pattern.matches(".{5,20}", pseudo)) {
+            request.getSession().setAttribute("errPseudo", "<span class='err'>Votre pseudo doit contenir 5 à 20 caractères</span>");
         } //else if (bibliothecaireFacade.find(pseudo)) {
             //request.getSession().setAttribute("errPseudo", "Ce pseudo est déjà utilisé");
         //}
-        else if (mdp.trim().equals("") || !Pattern.matches(".{5,20}", mdp)) {
-            request.getSession().setAttribute("errMdp", "Votre pseudo doit contenir 5 à 20 caractères");
+        if (mdp.trim().equals("") || !Pattern.matches(".{5,20}", mdp)) {
+            request.getSession().setAttribute("errMdp", "<span class='err'>Votre pseudo doit contenir 5 à 20 caractères</span>");
         }
         else {
             Personne p = new Personne();
