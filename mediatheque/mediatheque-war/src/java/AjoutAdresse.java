@@ -8,6 +8,7 @@ import entite.Adresse;
 import entite.AdresseFacadeLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -79,12 +80,25 @@ public class AjoutAdresse extends HttpServlet {
         String ville = request.getParameter("ville");
         String rue = request.getParameter("rue");
         int numero = Integer.parseInt(request.getParameter("num"));
-        Adresse a = new Adresse();
-        a.setNumero(numero);
-        a.setPays(pays);
-        a.setRue(rue);
-        a.setVille(ville);
-        adresseFacade.create(a);
+        if (pays.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", pays)) {
+            request.getSession().setAttribute("errPays", "<span class='err'>Le pays doit contenir 5 à 20 lettres</span>");
+        } else if (ville.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", ville)) {
+            request.getSession().setAttribute("errVille", "<span class='err'>La ville doit contenir 5 à 20 lettres</span>");
+        } else if (rue.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", rue)) {
+            request.getSession().setAttribute("errVille", "<span class='err'>La rue doit contenir 5 à 20 lettres</span>");
+        } else if (numero < 1 || numero > 300) {
+            request.getSession().setAttribute("errNum", "<span class='err'>Le numéro doit être compris entre 1 et 300</span>");
+        } else if (adresseFacade.findAll().stream().anyMatch(x -> x.getNumero().equals(numero) && x.getPays().equals(pays) && x.getRue().equals(rue) && x.getVille().equals(ville))) {
+            request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse existe déjà</span>");
+        } else {
+            Adresse a = new Adresse();
+            a.setNumero(numero);
+            a.setPays(pays);
+            a.setRue(rue);
+            a.setVille(ville);
+            adresseFacade.create(a);
+        }
+        response.sendRedirect("admin.jsp");
         processRequest(request, response);
     }
 

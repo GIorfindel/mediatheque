@@ -23,6 +23,7 @@ public class SupBibliothecaire extends HttpServlet {
 
     @EJB
     private PersonneFacadeLocal personneFacade;
+    @EJB
     private BibliothecaireFacadeLocal bibliothecaireFacade;
 
     /**
@@ -75,6 +76,7 @@ public class SupBibliothecaire extends HttpServlet {
         //Personne p = personneFacade.find(id);
         //Personne p = new Personne(id);
         request.getSession().setAttribute("idb", id);
+        bibliothecaireFacade.remove(bibliothecaireFacade.find(id));
         personneFacade.remove(personneFacade.find(id));
         response.sendRedirect("admin.jsp");
         processRequest(request, response);

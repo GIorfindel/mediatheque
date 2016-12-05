@@ -29,17 +29,6 @@ public class BibliothecaireFacade extends AbstractFacade<Bibliothecaire> impleme
         super(Bibliothecaire.class);
     }
 
-    public Boolean find(String pseudo) {
-        //if (this.findAll().stream().anyMatch(x -> x.getLogin().equals(pseudo))) 
-        Query query = em.createQuery("select b.bibliothecaireId from Bibliothecaire b where b.login = :ps");
-        query.setParameter("ps", pseudo);
-        if (query.getResultList().isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public void remove(int id) {
         /*Query query = em.createQuery("DELETE FROM Bibliothecaire b WHERE b.bibliothecaireId = :idb");
          query.setParameter("idb", id);

@@ -25,8 +25,6 @@ public interface BibliothecaireFacadeLocal {
 
     Bibliothecaire find(Object id);
 
-    Boolean find(String pseudo);
-
     List<Bibliothecaire> findAll();
 
     List<Bibliothecaire> findRange(int[] range);
