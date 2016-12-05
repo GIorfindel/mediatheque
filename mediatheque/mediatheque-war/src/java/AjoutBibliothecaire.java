@@ -105,6 +105,9 @@ public class AjoutBibliothecaire extends HttpServlet {
         else if (mdp.trim().equals("") || !Pattern.matches(".{5,20}", mdp)) {
             request.getSession().setAttribute("errMdp", "<span class='err'>Votre pseudo doit contenir 5 à 20 caractères</span>");
         }
+        else if (adrId == null || adrId.trim().equals("")) {
+            request.getSession().setAttribute("errSadr", "<span class='err'>Vous devez d'abord ajouter une adresse</span>");
+        }
         else {
             Personne p = new Personne();
             p.setNom(nom);

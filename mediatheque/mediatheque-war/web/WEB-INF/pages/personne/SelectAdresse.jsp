@@ -13,3 +13,5 @@
         <option value=${adresse.getAdresseId()}>${adresse.getAdresseId()}</option>
     </c:forEach>
 </select>
+<c:choose><c:when test="${sessionScope.errSadr!=null}"><br/>${errSadr}<c:remove var="errSadr"/></c:when><c:otherwise></c:otherwise></c:choose><br/>
+
