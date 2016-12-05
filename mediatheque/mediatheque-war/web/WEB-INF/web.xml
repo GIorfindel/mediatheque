@@ -36,6 +36,10 @@
         <servlet-name>SupBibliothecaire</servlet-name>
         <servlet-class>SupBibliothecaire</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SupAdresse</servlet-name>
+        <servlet-class>SupAdresse</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Admin_Client</servlet-name>
         <url-pattern>/Admin_Client</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>SupBibliothecaire</servlet-name>
         <url-pattern>/SupBibliothecaire</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SupAdresse</servlet-name>
+        <url-pattern>/SupAdresse</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
