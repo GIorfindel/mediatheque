@@ -40,6 +40,18 @@
         <servlet-name>SupAdresse</servlet-name>
         <servlet-class>SupAdresse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjoutAdherent</servlet-name>
+        <servlet-class>AjoutAdherent</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdherentList</servlet-name>
+        <servlet-class>AdherentList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SupAdherent</servlet-name>
+        <servlet-class>SupAdherent</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Admin_Client</servlet-name>
         <url-pattern>/Admin_Client</url-pattern>
@@ -79,6 +91,18 @@
     <servlet-mapping>
         <servlet-name>SupAdresse</servlet-name>
         <url-pattern>/SupAdresse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjoutAdherent</servlet-name>
+        <url-pattern>/AjoutAdherent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdherentList</servlet-name>
+        <url-pattern>/AdherentList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SupAdherent</servlet-name>
+        <url-pattern>/SupAdherent</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

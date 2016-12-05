@@ -39,5 +39,13 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         em.persist(b);
         em.flush();
     }
+    
+     public void create(Personne p, Adherent a) {
+        em.persist(p);
+        em.flush();
+        a.setAdherentId(p.getPersonneId());
+        em.persist(a);
+        em.flush();
+    }
 
 }

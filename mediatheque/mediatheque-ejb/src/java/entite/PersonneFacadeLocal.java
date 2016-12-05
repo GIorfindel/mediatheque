@@ -31,4 +31,6 @@ public interface PersonneFacadeLocal {
     
     void create (Personne p, Bibliothecaire b);
     
+    void create (Personne p, Adherent a);
+    
 }

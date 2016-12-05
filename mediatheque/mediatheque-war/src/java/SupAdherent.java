@@ -4,12 +4,10 @@
  * and open the template in the editor.
  */
 
-import entite.BibliothecaireFacadeLocal;
-import entite.Personne;
+import entite.AdherentFacadeLocal;
 import entite.PersonneFacadeLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +17,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author glorfindel
  */
-public class SupBibliothecaire extends HttpServlet {
-
+public class SupAdherent extends HttpServlet {
     @EJB
-    private PersonneFacadeLocal personneFacade;
+    AdherentFacadeLocal adherentFacade;
     @EJB
-    private BibliothecaireFacadeLocal bibliothecaireFacade;
+    PersonneFacadeLocal personneFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,18 +63,8 @@ public class SupBibliothecaire extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("bibId"));
-
-        //bibliothecaireFacade.remove(21);
-        //Bibliothecaire b = bibliothecaireFacade.find(id);
-        //Bibliothecaire b = new Bibliothecaire();
-        //b=bibliothecaireFacade.find(id);
-        //Bibliothecaire b = new Bibliothecaire(id);
-        //bibliothecaireFacade.remove(b);
-        //Personne p = personneFacade.find(id);
-        //Personne p = new Personne(id);
-        request.getSession().setAttribute("idb", id);
-        bibliothecaireFacade.remove(bibliothecaireFacade.find(id));
+        int id = Integer.parseInt(request.getParameter("adId"));
+        adherentFacade.remove(adherentFacade.find(id));
         personneFacade.remove(personneFacade.find(id));
         response.sendRedirect(referer);
         processRequest(request, response);

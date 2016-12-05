@@ -76,6 +76,7 @@ public class AjoutAdresse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String referer = request.getHeader("Referer");
         String pays = request.getParameter("pays");
         String ville = request.getParameter("ville");
         String rue = request.getParameter("rue");
@@ -98,7 +99,7 @@ public class AjoutAdresse extends HttpServlet {
             a.setVille(ville);
             adresseFacade.create(a);
         }
-        response.sendRedirect("admin.jsp");
+        response.sendRedirect(referer);
         processRequest(request, response);
     }
 

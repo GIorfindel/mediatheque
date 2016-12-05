@@ -4,12 +4,15 @@
  * and open the template in the editor.
  */
 
-import entite.BibliothecaireFacadeLocal;
+import entite.Adherent;
+import entite.AdherentFacadeLocal;
+import entite.Adresse;
+import entite.AdresseFacadeLocal;
 import entite.Personne;
 import entite.PersonneFacadeLocal;
 import java.io.IOException;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +22,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author glorfindel
  */
-public class SupBibliothecaire extends HttpServlet {
+public class AjoutAdherent extends HttpServlet {
 
+    @EJB
+    private AdresseFacadeLocal adresseFacade;
     @EJB
     private PersonneFacadeLocal personneFacade;
     @EJB
-    private BibliothecaireFacadeLocal bibliothecaireFacade;
+    private AdherentFacadeLocal adherentFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,19 +71,29 @@ public class SupBibliothecaire extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("bibId"));
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String tel = request.getParameter("tel");
+        String adrId = request.getParameter("adrId");
 
-        //bibliothecaireFacade.remove(21);
-        //Bibliothecaire b = bibliothecaireFacade.find(id);
-        //Bibliothecaire b = new Bibliothecaire();
-        //b=bibliothecaireFacade.find(id);
-        //Bibliothecaire b = new Bibliothecaire(id);
-        //bibliothecaireFacade.remove(b);
-        //Personne p = personneFacade.find(id);
-        //Personne p = new Personne(id);
-        request.getSession().setAttribute("idb", id);
-        bibliothecaireFacade.remove(bibliothecaireFacade.find(id));
-        personneFacade.remove(personneFacade.find(id));
+        if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
+            request.getSession().setAttribute("errNom", "<span class='err'>Le nom doit contenir 5 à 20 lettres</span>");
+        } else if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
+            request.getSession().setAttribute("errPrenom", "<span class='err'>Le prénom doit contenir 5 à 20 lettres</span>");
+        } else if (tel.trim().equals("") || !Pattern.matches("0[0-9]{9,9}", tel)) {
+            request.getSession().setAttribute("errTel", "<span class='err'>Un numéro de téléphone contient 10 chiffres et commence par 0</span>");
+        } else if (adrId == null || adrId.trim().equals("")) {
+            request.getSession().setAttribute("errSadr", "<span class='err'>Vous devez d'abord ajouter une adresse</span>");
+        } else {
+            Personne p = new Personne();
+            p.setNom(nom);
+            p.setPrenom(prenom);
+            p.setTelephone(tel);
+            Adresse a = new Adresse(Integer.parseInt(adrId));
+            p.setAdresseId(a);
+            Adherent ad = new Adherent();
+            personneFacade.create(p,ad);
+        }
         response.sendRedirect(referer);
         processRequest(request, response);
     }

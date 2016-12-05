@@ -64,13 +64,14 @@ public class SupAdresse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String referer = request.getHeader("Referer");
         int id = Integer.parseInt(request.getParameter("adrId"));
         if (personneFacade.findAll().stream().anyMatch(x -> x.getAdresseId().getAdresseId().equals(id))) {
             request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse ne peut pas être supprimée tant qu'elle est liée à une personne</span>");
         } else {
             adresseFacade.remove(adresseFacade.find(id));
         }
-        response.sendRedirect("admin.jsp");
+        response.sendRedirect(referer);
         processRequest(request, response);
     }
 
