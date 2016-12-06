@@ -4,32 +4,27 @@
  * and open the template in the editor.
  */
 
-import entite.Adherent;
-import entite.AdherentFacadeLocal;
 import entite.Adresse;
-import entite.AdresseFacadeLocal;
+import entite.Auteur;
 import entite.Personne;
 import entite.PersonneFacadeLocal;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author glorfindel
+ * @author florian
  */
-public class AjoutAdherent extends HttpServlet {
-
+@WebServlet(urlPatterns = {"/AjoutAuteur"})
+public class AjoutAuteur extends HttpServlet {
     @EJB
-    private AdresseFacadeLocal adresseFacade;
-    @EJB
-    private PersonneFacadeLocal personneFacade;
-    @EJB
-    private AdherentFacadeLocal adherentFacade;
+    PersonneFacadeLocal personneFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -91,11 +86,11 @@ public class AjoutAdherent extends HttpServlet {
             p.setTelephone(tel);
             Adresse a = new Adresse(Integer.parseInt(adrId));
             p.setAdresseId(a);
-            Adherent ad = new Adherent();
-            ad.setPersonne(p);
-            personneFacade.create(p,ad);
+            Auteur at = new Auteur();
+            at.setPersonne(p);
+            personneFacade.create(p,at);
         }
-        response.sendRedirect("gestionAdherent.jsp");
+        response.sendRedirect("gestionAuteurs.jsp");
         processRequest(request, response);
     }
 

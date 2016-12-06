@@ -52,6 +52,10 @@
         <servlet-name>SupAdherent</servlet-name>
         <servlet-class>SupAdherent</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AuteurList</servlet-name>
+        <servlet-class>AuteurList</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Admin_Client</servlet-name>
         <url-pattern>/Admin_Client</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>SupAdherent</servlet-name>
         <url-pattern>/SupAdherent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuteurList</servlet-name>
+        <url-pattern>/AuteurList</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,14 +4,9 @@
  * and open the template in the editor.
  */
 
-import entite.Adherent;
-import entite.AdherentFacadeLocal;
-import entite.Adresse;
-import entite.AdresseFacadeLocal;
-import entite.Personne;
-import entite.PersonneFacadeLocal;
+import entite.AuteurFacadeLocal;
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,16 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author glorfindel
+ * @author florian
  */
-public class AjoutAdherent extends HttpServlet {
-
+public class AuteurList extends HttpServlet {
     @EJB
-    private AdresseFacadeLocal adresseFacade;
-    @EJB
-    private PersonneFacadeLocal personneFacade;
-    @EJB
-    private AdherentFacadeLocal adherentFacade;
+    AuteurFacadeLocal auteurFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,6 +46,8 @@ public class AjoutAdherent extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                List lAt = auteurFacade.findAll();
+        request.setAttribute("atList", lAt);
         processRequest(request, response);
     }
 
@@ -70,32 +62,6 @@ public class AjoutAdherent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String referer = request.getHeader("Referer");
-        String nom = request.getParameter("nom");
-        String prenom = request.getParameter("prenom");
-        String tel = request.getParameter("tel");
-        String adrId = request.getParameter("adrId");
-
-        if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
-            request.getSession().setAttribute("errNom", "<span class='err'>Le nom doit contenir 5 à 20 lettres</span>");
-        } else if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
-            request.getSession().setAttribute("errPrenom", "<span class='err'>Le prénom doit contenir 5 à 20 lettres</span>");
-        } else if (tel.trim().equals("") || !Pattern.matches("0[0-9]{9,9}", tel)) {
-            request.getSession().setAttribute("errTel", "<span class='err'>Un numéro de téléphone contient 10 chiffres et commence par 0</span>");
-        } else if (adrId == null || adrId.trim().equals("")) {
-            request.getSession().setAttribute("errSadr", "<span class='err'>Vous devez d'abord ajouter une adresse</span>");
-        } else {
-            Personne p = new Personne();
-            p.setNom(nom);
-            p.setPrenom(prenom);
-            p.setTelephone(tel);
-            Adresse a = new Adresse(Integer.parseInt(adrId));
-            p.setAdresseId(a);
-            Adherent ad = new Adherent();
-            ad.setPersonne(p);
-            personneFacade.create(p,ad);
-        }
-        response.sendRedirect("gestionAdherent.jsp");
         processRequest(request, response);
     }
 
