@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div class="ligne">
+<div class="table ligne">
     <form action="${pageContext.request.contextPath}/SupBibliothecaire" method="post">
         <h3>Liste  des  bibliothecaires</h3>
         <c:import url="/Bibliothecairelist"/>
@@ -14,6 +14,7 @@
             <tr>
                 <th>Id</th>
                 <th>Pseudo</th>
+                <th></th>
             </tr>
             <c:forEach var="bib" items="${bibs}" varStatus="i">
                 <tr>

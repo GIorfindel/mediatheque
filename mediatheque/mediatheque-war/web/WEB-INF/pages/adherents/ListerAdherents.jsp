@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div class="ligne">
+<div class="table ligne">
     <form action="${pageContext.request.contextPath}/SupAdherent" method="post">
         <h3>Liste  des  adhérents</h3>
         <c:import url="/AdherentList"/>
@@ -14,12 +14,12 @@
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
-                <th>Prénom</th>
+                <th></th>
             </tr>
             <c:forEach var="ad" items="${ads}" varStatus="i">
                 <tr>
                     <td>${ad.getAdherentId()}</td>
-                    <td>${bib.getNom()}</td>
+                    <td>${ad.getPersonne().getNom()}</td>
                     <td><button type="submit" name="adId" value=${ad.getAdherentId()}>Supprimer</button>
                 </tr>
             </c:forEach>

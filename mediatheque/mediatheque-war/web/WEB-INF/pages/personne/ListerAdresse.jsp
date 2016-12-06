@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div class="ligne">
+<div class="table ligne">
     <h3>Liste  des  adresses </h3>
     <c:import url="/AdresseList"/>
     <c:set var="adresses" value="${requestScope.adressesList}"/>
@@ -18,6 +18,7 @@
                 <th>Ville</th>
                 <th>Rue</th>
                 <th>Numéro</th>
+                <th></th>
             </tr>
             <c:forEach var="adresse" items="${adresses}" varStatus="i">
                 <tr>
