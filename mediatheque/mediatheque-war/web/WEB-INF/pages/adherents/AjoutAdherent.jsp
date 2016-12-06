@@ -13,7 +13,7 @@
         </div>
         <div>
             <jsp:include page="/WEB-INF/pages/personne/SelectAdresse.jsp"/>
-        </div>
             <input type='submit'><br/>
+        </div>
     </form>
 </div>

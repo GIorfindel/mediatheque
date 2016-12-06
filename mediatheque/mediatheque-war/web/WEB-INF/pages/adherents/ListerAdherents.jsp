@@ -10,11 +10,11 @@
         <h3>Liste  des  adhérents</h3>
         <c:import url="/AdherentList"/>
         <c:set var="ads" value="${requestScope.adList}"/>
-        <table border="1" cellpadding="0" cellspacing="0">
-            <tr bgcolor="#cccccc">
-                <td>Id</td>
-                <td>Nom</td>
-                <td>Prénom</td>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prénom</th>
             </tr>
             <c:forEach var="ad" items="${ads}" varStatus="i">
                 <tr>

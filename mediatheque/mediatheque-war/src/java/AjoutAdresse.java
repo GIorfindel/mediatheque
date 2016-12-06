@@ -90,7 +90,7 @@ public class AjoutAdresse extends HttpServlet {
         } else if (numero < 1 || numero > 300) {
             request.getSession().setAttribute("errNum", "<span class='err'>Le numéro doit être compris entre 1 et 300</span>");
         } else if (adresseFacade.findAll().stream().anyMatch(x -> x.getNumero().equals(numero) && x.getPays().equals(pays) && x.getRue().equals(rue) && x.getVille().equals(ville))) {
-            request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse existe déjà</span>");
+            request.getSession().setAttribute("errAdrE", "<span class='err'>L'adresse existe déjà</span>");
         } else {
             Adresse a = new Adresse();
             a.setNumero(numero);

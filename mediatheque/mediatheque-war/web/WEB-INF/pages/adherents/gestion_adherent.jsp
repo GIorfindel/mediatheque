@@ -12,6 +12,7 @@
         <title>Gestion des adhérents</title>
     </head>
     <body>
+        <jsp:include page="/WEB-INF/pages/menu.jsp"/>
         <jsp:include page="/WEB-INF/pages/adherents/AjoutAdherent.jsp"/>
         <jsp:include page="/WEB-INF/pages/adherents/ListeAdherent.jsp"/>
     </body>

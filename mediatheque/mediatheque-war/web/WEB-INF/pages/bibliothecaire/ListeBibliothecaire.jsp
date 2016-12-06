@@ -10,10 +10,10 @@
         <h3>Liste  des  bibliothecaires</h3>
         <c:import url="/Bibliothecairelist"/>
         <c:set var="bibs" value="${requestScope.bibList}"/>
-        <table border="1" cellpadding="0" cellspacing="0">
-            <tr bgcolor="#cccccc">
-                <td>Id</td>
-                <td>Pseudo</td>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Pseudo</th>
             </tr>
             <c:forEach var="bib" items="${bibs}" varStatus="i">
                 <tr>
