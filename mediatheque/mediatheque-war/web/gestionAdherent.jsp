@@ -18,6 +18,7 @@
             <li class="limenu"><a class="active" href="gestionAdherent.jsp">Gestion adhérents</a></li>
             <li class="limenu"><a href="gestionMedias.jsp">Gestion médias</a></li>
             <li class="limenu"><a href="gestionAuteurs.jsp">Gestion des auteurs</a></li>
+            <li class="limenu"><a href="gestionEditeurs.jsp">Gestion des éditeurs</a></li>
         </ul>
         <jsp:include page="/WEB-INF/pages/adherents/AjoutAdherent.jsp"/>
         <jsp:include page="/WEB-INF/pages/adherents/ListerAdherents.jsp"/>
