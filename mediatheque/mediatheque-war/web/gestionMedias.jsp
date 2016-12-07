@@ -20,7 +20,7 @@
             <li class="limenu"><a class="active" href="gestionMedias.jsp">Gestion médias</a></li>
             <li class="limenu"><a href="gestionAuteurs.jsp">Gestion des auteurs</a></li>
         </ul>
-        <jsp:include page="/WEB-INF/pages/bibliothecaire/AjoutMedia.jsp"/>
-        <jsp:include page="/WEB-INF/pages/bibliothecaire/ListeMedia.jsp"/>
+        <jsp:include page="/WEB-INF/pages/media/AjoutMedia.jsp"/>
+        <jsp:include page="/WEB-INF/pages/media/ListeMedia.jsp"/>
     </body>
 </html>

@@ -20,7 +20,7 @@
                 <tr>
                     <td>${at.getAuteurId()}</td>
                     <td>${at.getPersonne().getNom()}</td>
-                    <td><button type="submit" name="adId" value=${at.getAuteurId()}>Supprimer</button>
+                    <td><button type="submit" name="atId" value=${at.getAuteurId()}>Supprimer</button>
                 </tr>
             </c:forEach>
         </table>

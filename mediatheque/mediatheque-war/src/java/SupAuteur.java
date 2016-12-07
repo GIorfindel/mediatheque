@@ -66,7 +66,7 @@ public class SupAuteur extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("adId"));
+        int id = Integer.parseInt(request.getParameter("atId"));
         auteurFacade.remove(auteurFacade.find(id));
         personneFacade.remove(personneFacade.find(id));
         response.sendRedirect(referer);
