@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 
-import entite.AdresseFacadeLocal;
-import entite.Editeur;
-import entite.EditeurFacadeLocal;
+import entite.TypeFacadeLocal;
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,15 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author florian
+ * @author glorfindel
  */
-@WebServlet(urlPatterns = {"/AjoutEditeur"})
-public class AjoutEditeur extends HttpServlet {
+@WebServlet(urlPatterns = {"/TypeList"})
+public class TypeList extends HttpServlet {
     @EJB
-    EditeurFacadeLocal editeurFacade;
-    @EJB
-    AdresseFacadeLocal adresseFacade;
-    
+    TypeFacadeLocal typeFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,6 +48,8 @@ public class AjoutEditeur extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List lTt = typeFacade.findAll();
+        request.setAttribute("typeList", lTt);
         processRequest(request, response);
     }
 
@@ -66,25 +64,8 @@ public class AjoutEditeur extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String referer = request.getHeader("Referer");
-        String nom = request.getParameter("nom");
-        String adrId = request.getParameter("adrId");
-
-        if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
-            request.getSession().setAttribute("errNom", "<span class='err'>Le nom doit contenir 5 à 20 lettres</span>");
-        }else if (editeurFacade.findAll().stream().anyMatch(x -> x.getNom().equals(nom))) {
-            request.getSession().setAttribute("errNomU", "<span class='err'>Un éditeur utilise déjà ce nom</span>");
-        }
-        else if (adrId == null || adrId.trim().equals("")) {
-            request.getSession().setAttribute("errSadr", "<span class='err'>Vous devez d'abord ajouter une adresse</span>");
-        } else {
-            Editeur e = new Editeur();
-            e.setNom(nom);
-            e.setAdresseId(adresseFacade.find(Integer.parseInt(adrId)));
-            editeurFacade.create(e);
-        }
-        response.sendRedirect(referer);
-        processRequest(request, response);    }
+        processRequest(request, response);
+    }
 
     /**
      * Returns a short description of the servlet.
