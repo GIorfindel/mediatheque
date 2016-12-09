@@ -8,6 +8,7 @@ package entite;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +27,14 @@ public class GenreFacade extends AbstractFacade<Genre> implements GenreFacadeLoc
 
     public GenreFacade() {
         super(Genre.class);
+    }
+    
+    @Override
+    public Genre find(String nom)
+    {
+        Query q = em.createQuery("SELECT g FROM Genre g WHERE g.nom = :nom");
+        q.setParameter("nom", nom);
+        return ((Genre)q.getSingleResult());
     }
     
 }

@@ -5,9 +5,9 @@
  */
 
 import entite.AuteurFacadeLocal;
-import entite.PersonneFacadeLocal;
+import entite.Edition;
+import entite.EditionFacadeLocal;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +19,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author florian
  */
-@WebServlet(urlPatterns = {"/SupAuteur"})
-public class SupAuteur extends HttpServlet {
-
+@WebServlet(urlPatterns = {"/AjoutAuteurMedia"})
+public class AjoutAuteurMedia extends HttpServlet {
+    @EJB
+    EditionFacadeLocal editionFacade;
     @EJB
     AuteurFacadeLocal auteurFacade;
-    @EJB
-    PersonneFacadeLocal personneFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,16 +64,19 @@ public class SupAuteur extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException { 
         String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("atId"));
-        if (!auteurFacade.findAll().stream().anyMatch(x -> x.getAuteurId().equals(id) && x.getEditionCollection().isEmpty())) {
-            request.getSession().setAttribute("errEd", "<span class='err'>Vous ne pouvez pas supprimer un auteur tant qu'il est auteur d'un média</span>");
+        int mId = Integer.parseInt(request.getParameter("mediaId"));
+        int aId = Integer.parseInt(request.getParameter("autId"));
+        if(editionFacade.findAll().stream().anyMatch(x -> x.getEditionId().equals(mId)&&x.getAuteurCollection().stream().anyMatch(y->y.getAuteurId().equals(aId))))
+        {
+            request.getSession().setAttribute("errAe", "<span class='err'>L'auteur est déjà listé pour ce média</span>");
         }
         else
         {
-            auteurFacade.remove(auteurFacade.find(id));
-            personneFacade.remove(personneFacade.find(id));
+            Edition e = editionFacade.find(mId);
+            e.getAuteurCollection().add(auteurFacade.find(aId));
+            editionFacade.edit(e);
         }
         response.sendRedirect(referer);
         processRequest(request, response);

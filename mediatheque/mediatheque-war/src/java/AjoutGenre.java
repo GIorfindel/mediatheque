@@ -4,10 +4,13 @@
  * and open the template in the editor.
  */
 
-import entite.AuteurFacadeLocal;
-import entite.PersonneFacadeLocal;
+import entite.Edition;
+import entite.EditionFacadeLocal;
+import entite.Genre;
+import entite.GenreFacadeLocal;
+import entite.Type;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +22,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author florian
  */
-@WebServlet(urlPatterns = {"/SupAuteur"})
-public class SupAuteur extends HttpServlet {
-
+@WebServlet(urlPatterns = {"/AjoutGenre"})
+public class AjoutGenre extends HttpServlet {
     @EJB
-    AuteurFacadeLocal auteurFacade;
+    GenreFacadeLocal genreFacade;
     @EJB
-    PersonneFacadeLocal personneFacade;
+    EditionFacadeLocal editionFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,14 +69,26 @@ public class SupAuteur extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("atId"));
-        if (!auteurFacade.findAll().stream().anyMatch(x -> x.getAuteurId().equals(id) && x.getEditionCollection().isEmpty())) {
-            request.getSession().setAttribute("errEd", "<span class='err'>Vous ne pouvez pas supprimer un auteur tant qu'il est auteur d'un média</span>");
+        int mId = Integer.parseInt(request.getParameter("mediaId"));
+        String g = request.getParameter("genre");
+        if (g.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", g)) {
+            request.getSession().setAttribute("errGenre", "<span class='err'>Le genre doit contenir 5 à 20 lettres</span>");
         }
         else
         {
-            auteurFacade.remove(auteurFacade.find(id));
-            personneFacade.remove(personneFacade.find(id));
+            Edition e = editionFacade.find(mId);
+            if(genreFacade.findAll().stream().anyMatch(x -> x.getNom().equals(g)))
+            {
+                e.getIdMedia().getGenreCollection().add(genreFacade.find(g));
+            }
+            else
+            {
+                Genre ge = new Genre();
+                ge.setNom(g);
+                genreFacade.create(ge);
+                e.getIdMedia().getGenreCollection().add(ge);
+            }
+            editionFacade.edit(e);
         }
         response.sendRedirect(referer);
         processRequest(request, response);

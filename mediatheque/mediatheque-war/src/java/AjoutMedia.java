@@ -100,7 +100,11 @@ public class AjoutMedia extends HttpServlet {
             request.getSession().setAttribute("errIsbn", "<span class='err'>Vous devez renseigner l'ISBN si vous ajoutez un livre</span>");
         } else if (typeFacade.find(Integer.parseInt(type)).getNom().equals("livre") && !Pattern.matches("[0-9]{13}", isbn)) {
             request.getSession().setAttribute("errIsbn", "<span class='err'>Le numéro ISBN doit contenir 13 chiffres</span>");
-        } else {
+        } else if (type.trim().equals("")) {
+            request.getSession().setAttribute("errType", "<span class='err'>Vous devez choisir une type</span>");
+        } else if (editeur==null) {
+            request.getSession().setAttribute("errEd", "<span class='err'>Vous devez choisir un éditeur</span>");
+        }else {
             Edition ed = new Edition();
             ed.setNom(nom);
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

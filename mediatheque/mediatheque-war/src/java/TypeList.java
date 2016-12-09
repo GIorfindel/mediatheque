@@ -49,7 +49,7 @@ public class TypeList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List lTt = typeFacade.findAll();
-        request.setAttribute("typeList", lTt);
+        request.setAttribute("tpList", lTt);
         processRequest(request, response);
     }
 

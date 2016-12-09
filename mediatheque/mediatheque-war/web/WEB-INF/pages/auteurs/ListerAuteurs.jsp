@@ -24,5 +24,6 @@
                 </tr>
             </c:forEach>
         </table>
+        <c:choose><c:when test="${sessionScope.errEd!=null}">${errEd}<br/><c:remove var="errEd"/></c:when><c:otherwise></c:otherwise></c:choose>
     </form>
 </div>

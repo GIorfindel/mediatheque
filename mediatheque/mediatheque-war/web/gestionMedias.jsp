@@ -22,6 +22,9 @@
             <li class="limenu"><a href="gestionEditeurs.jsp">Gestion des éditeurs</a></li>
         </ul>
         <jsp:include page="/WEB-INF/pages/media/AjoutMedia.jsp"/>
+        <jsp:include page="/WEB-INF/pages/media/AjouterAuteur.jsp"/>
+        <jsp:include page="/WEB-INF/pages/media/AjoutType.jsp"/>
+        <jsp:include page="/WEB-INF/pages/media/ListeType.jsp"/>
         <jsp:include page="/WEB-INF/pages/media/ListeMedia.jsp"/>
     </body>
 </html>

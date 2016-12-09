@@ -5,9 +5,12 @@
  */
 package entite;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.resource.cci.ResultSet;
 
 /**
  *
@@ -27,5 +30,5 @@ public class MediaFacade extends AbstractFacade<Media> implements MediaFacadeLoc
     public MediaFacade() {
         super(Media.class);
     }
-    
+
 }

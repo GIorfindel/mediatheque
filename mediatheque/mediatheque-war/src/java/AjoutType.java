@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-import entite.AuteurFacadeLocal;
-import entite.PersonneFacadeLocal;
+import entite.Type;
+import entite.TypeFacadeLocal;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author florian
  */
-@WebServlet(urlPatterns = {"/SupAuteur"})
-public class SupAuteur extends HttpServlet {
+@WebServlet(urlPatterns = {"/AjoutType"})
+public class AjoutType extends HttpServlet {
 
     @EJB
-    AuteurFacadeLocal auteurFacade;
-    @EJB
-    PersonneFacadeLocal personneFacade;
+    TypeFacadeLocal typeFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,14 +65,17 @@ public class SupAuteur extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("atId"));
-        if (!auteurFacade.findAll().stream().anyMatch(x -> x.getAuteurId().equals(id) && x.getEditionCollection().isEmpty())) {
-            request.getSession().setAttribute("errEd", "<span class='err'>Vous ne pouvez pas supprimer un auteur tant qu'il est auteur d'un média</span>");
+        String nom = request.getParameter("nom");
+        if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{2,20}", nom)) {
+            request.getSession().setAttribute("errNomT", "<span class='err'>Le nom doit contenir 2 à 20 lettres</span>");
+        } else if (typeFacade.findAll().stream().anyMatch(x -> x.getNom().equals(nom))) {
+            request.getSession().setAttribute("errNomT", "<span class='err'>Le type existe déjà</span>");
         }
         else
         {
-            auteurFacade.remove(auteurFacade.find(id));
-            personneFacade.remove(personneFacade.find(id));
+            Type t = new Type();
+            t.setNom(nom);
+            typeFacade.create(t);
         }
         response.sendRedirect(referer);
         processRequest(request, response);

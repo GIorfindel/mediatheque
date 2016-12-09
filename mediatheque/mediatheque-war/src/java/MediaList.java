@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-import entite.AuteurFacadeLocal;
-import entite.PersonneFacadeLocal;
+import entite.Edition;
+import entite.EditionFacadeLocal;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +20,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author florian
  */
-@WebServlet(urlPatterns = {"/SupAuteur"})
-public class SupAuteur extends HttpServlet {
+@WebServlet(urlPatterns = {"/MediaList"})
+public class MediaList extends HttpServlet {
 
     @EJB
-    AuteurFacadeLocal auteurFacade;
-    @EJB
-    PersonneFacadeLocal personneFacade;
+    EditionFacadeLocal editionFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,6 +51,8 @@ public class SupAuteur extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //List lTm = mediaFacade.findJoin();
+        request.setAttribute("mdList", editionFacade.findAll());
         processRequest(request, response);
     }
 
@@ -66,17 +67,6 @@ public class SupAuteur extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String referer = request.getHeader("Referer");
-        int id = Integer.parseInt(request.getParameter("atId"));
-        if (!auteurFacade.findAll().stream().anyMatch(x -> x.getAuteurId().equals(id) && x.getEditionCollection().isEmpty())) {
-            request.getSession().setAttribute("errEd", "<span class='err'>Vous ne pouvez pas supprimer un auteur tant qu'il est auteur d'un média</span>");
-        }
-        else
-        {
-            auteurFacade.remove(auteurFacade.find(id));
-            personneFacade.remove(personneFacade.find(id));
-        }
-        response.sendRedirect(referer);
         processRequest(request, response);
     }
 

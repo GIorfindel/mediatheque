@@ -7,6 +7,7 @@ package entite;
 
 import java.util.List;
 import javax.ejb.Local;
+import javax.resource.cci.ResultSet;
 
 /**
  *
@@ -28,5 +29,4 @@ public interface MediaFacadeLocal {
     List<Media> findRange(int[] range);
 
     int count();
-    
 }

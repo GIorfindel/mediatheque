@@ -29,4 +29,6 @@ public interface GenreFacadeLocal {
 
     int count();
     
+    Genre find(String nom);
+    
 }
