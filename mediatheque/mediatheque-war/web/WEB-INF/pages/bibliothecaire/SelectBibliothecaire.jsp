@@ -9,6 +9,7 @@
 ${idb}
 <form action="${pageContext.request.contextPath}/SupBibliothecaire" method="post">
     <select name="bibId">
+        <%--On importe la liste des bibliothecaires puis on puis on les ajoutes au select--%>
         <c:import url="/Bibliothecairelist"/>
         <c:set var="bibs" value="${requestScope.bibList}"/>
         <c:forEach var="bib" items="${bibs}" varStatus="i">

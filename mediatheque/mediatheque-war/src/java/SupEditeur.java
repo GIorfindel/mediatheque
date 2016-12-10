@@ -61,9 +61,13 @@ public class SupEditeur extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère l'ID de l'éditeur à supprimer
         int id = Integer.parseInt(request.getParameter("edId"));
+        //On supprime l'éditeur
         editeurFacade.remove(editeurFacade.find(id));
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

@@ -65,20 +65,14 @@ public class SupBibliothecaire extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère l'ID du bibliothécaire à supprimer
         int id = Integer.parseInt(request.getParameter("bibId"));
-
-        //bibliothecaireFacade.remove(21);
-        //Bibliothecaire b = bibliothecaireFacade.find(id);
-        //Bibliothecaire b = new Bibliothecaire();
-        //b=bibliothecaireFacade.find(id);
-        //Bibliothecaire b = new Bibliothecaire(id);
-        //bibliothecaireFacade.remove(b);
-        //Personne p = personneFacade.find(id);
-        //Personne p = new Personne(id);
-        request.getSession().setAttribute("idb", id);
+        //On supprime la bibliothécaire et la personne correspondante
         bibliothecaireFacade.remove(bibliothecaireFacade.find(id));
         personneFacade.remove(personneFacade.find(id));
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

@@ -8,6 +8,7 @@
 <div class="table ligne medias">
     <form action="${pageContext.request.contextPath}/SupMedia" method="post">
         <h3>Liste  des  médias:</h3>
+        <%--On importe la liste de médias puis affiches les informations et le bouton de suppression--%>
         <c:import url="/MediaList"/>
         <c:set var="mds" value="${requestScope.mdList}"/>
         <table>

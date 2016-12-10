@@ -7,6 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <h3>Choisissez une adresse</h3>
 <select name="adrId">
+    <%--On importe la liste des adresses puis on les ajoutes au select--%>
     <c:import url="/AdresseList"/>
     <c:set var="adresses" value="${requestScope.adressesList}"/>
     <c:forEach var="adresse" items="${adresses}" varStatus="i">

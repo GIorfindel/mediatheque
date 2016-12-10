@@ -7,6 +7,7 @@
 <div class="table ligne medias">
     <form action="${pageContext.request.contextPath}/RendreMedia" method="post">
         <h3>Rendre:</h3>
+        <%--On importe la liste des médias empruntés--%>
         <c:import url="/MediaEmpruntes"/>
         <c:set var="emps" value="${requestScope.empLt}"/>
         <table>
@@ -23,6 +24,7 @@
                     <td>${emp.empruntePK.idAdherent}</td>
                     <td>${emp.empruntePK.dateemprunt}</td>
                     <td>${emp.empruntePK.dateretour}</td>
+                    <%--On ajoute un bouton pour rendre le média et un deuxième bouton caché pour envoyer plus d'une valeur au servlet--%>
                     <td><button type="submit" name="mId" value=${emp.empruntePK.idMedia}>Rendre</button>
                     <input type="hidden" name="aId" value=${emp.empruntePK.idAdherent}> 
                 </tr>

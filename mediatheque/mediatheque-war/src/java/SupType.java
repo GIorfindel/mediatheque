@@ -65,13 +65,18 @@ public class SupType extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère l'ID du type
         int id = Integer.parseInt(request.getParameter("tpId"));
+        //Avant de supprimer le type on vérifie qu'aucun média de ce type n'est présent
         if (mediaFacade.findAll().stream().anyMatch(x -> x.getTypeId().getTypeId().equals(id))) {
             request.getSession().setAttribute("errTpU", "<span class='err'>Le type est utilisé par des médias</span>");
         } else {
+            //On supprime le type
             typeFacade.remove(typeFacade.find(id));
         }
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

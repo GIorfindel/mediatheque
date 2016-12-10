@@ -46,7 +46,8 @@ public class AuteurList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                List lAt = auteurFacade.findAll();
+        //On renvoie la liste des auteurs
+        List lAt = auteurFacade.findAll();
         request.setAttribute("atList", lAt);
         processRequest(request, response);
     }

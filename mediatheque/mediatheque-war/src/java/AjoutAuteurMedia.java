@@ -65,19 +65,24 @@ public class AjoutAuteurMedia extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException { 
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère les paramètres du formulaires
         int mId = Integer.parseInt(request.getParameter("mediaId"));
         int aId = Integer.parseInt(request.getParameter("autId"));
+        //On parcours la liste des éditions pour savoir si l'auteur est déjà listé comme auteur du média auquel on veut l'ajouter
         if(editionFacade.findAll().stream().anyMatch(x -> x.getEditionId().equals(mId)&&x.getAuteurCollection().stream().anyMatch(y->y.getAuteurId().equals(aId))))
         {
             request.getSession().setAttribute("errAe", "<span class='err'>L'auteur est déjà listé pour ce média</span>");
         }
         else
         {
+            //Si l'auteur n'est pas déjà listé dans l'édition alors on l'y ajoute
             Edition e = editionFacade.find(mId);
             e.getAuteurCollection().add(auteurFacade.find(aId));
             editionFacade.edit(e);
         }
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

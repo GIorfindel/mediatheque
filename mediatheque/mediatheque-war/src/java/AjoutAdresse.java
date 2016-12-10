@@ -35,19 +35,6 @@ public class AjoutAdresse extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AjoutAdresse</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AjoutAdresse at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,11 +63,14 @@ public class AjoutAdresse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère les paramètres du formulaire
         String pays = request.getParameter("pays");
         String ville = request.getParameter("ville");
         String rue = request.getParameter("rue");
         int numero = Integer.parseInt(request.getParameter("num"));
+        //On vérifie les inputs et on revoie des erreurs s'ils ne correspondent pas à l'expression régulière
         if (pays.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", pays)) {
             request.getSession().setAttribute("errPays", "<span class='err'>Le pays doit contenir 5 à 20 lettres</span>");
         } else if (ville.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", ville)) {
@@ -92,6 +82,7 @@ public class AjoutAdresse extends HttpServlet {
         } else if (adresseFacade.findAll().stream().anyMatch(x -> x.getNumero().equals(numero) && x.getPays().equals(pays) && x.getRue().equals(rue) && x.getVille().equals(ville))) {
             request.getSession().setAttribute("errAdrE", "<span class='err'>L'adresse existe déjà</span>");
         } else {
+            //Si les inputs sont corrects alors ajoute l'adresse
             Adresse a = new Adresse();
             a.setNumero(numero);
             a.setPays(pays);
@@ -99,6 +90,7 @@ public class AjoutAdresse extends HttpServlet {
             a.setVille(ville);
             adresseFacade.create(a);
         }
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

@@ -66,16 +66,21 @@ public class SupAuteur extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère l'ID de l'auteur
         int id = Integer.parseInt(request.getParameter("atId"));
+        //On parcours la liste d'auteur et on vérifie qu'il n'est auteur d'aucun média
         if (!auteurFacade.findAll().stream().anyMatch(x -> x.getAuteurId().equals(id) && x.getEditionCollection().isEmpty())) {
             request.getSession().setAttribute("errEd", "<span class='err'>Vous ne pouvez pas supprimer un auteur tant qu'il est auteur d'un média</span>");
         }
         else
         {
+            //S'il n'est auteur d'aucun média alors on peut supprimer l'auteur et la personne correspondant
             auteurFacade.remove(auteurFacade.find(id));
             personneFacade.remove(personneFacade.find(id));
         }
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

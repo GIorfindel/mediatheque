@@ -65,12 +65,15 @@ public class AjoutAuteur extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'url de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère les paramètres du formulaire
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String tel = request.getParameter("tel");
         String adrId = request.getParameter("adrId");
 
+        //On vérifie que les inputs correspondent aux expressions régulières, sinon on renvoie une erreur
         if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
             request.getSession().setAttribute("errNom", "<span class='err'>Le nom doit contenir 5 à 20 lettres</span>");
         } else if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
@@ -80,6 +83,7 @@ public class AjoutAuteur extends HttpServlet {
         } else if (adrId == null || adrId.trim().equals("")) {
             request.getSession().setAttribute("errSadr", "<span class='err'>Vous devez d'abord ajouter une adresse</span>");
         } else {
+            //Si les inputs sont corrects, on créé la personne puis on lui lie le nouvel auteur
             Personne p = new Personne();
             p.setNom(nom);
             p.setPrenom(prenom);

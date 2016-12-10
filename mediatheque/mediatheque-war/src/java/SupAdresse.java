@@ -5,9 +5,9 @@
  */
 
 import entite.AdresseFacadeLocal;
+import entite.EditeurFacadeLocal;
 import entite.PersonneFacadeLocal;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +24,8 @@ public class SupAdresse extends HttpServlet {
     private PersonneFacadeLocal personneFacade;
     @EJB
     private AdresseFacadeLocal adresseFacade;
+    @EJB
+    private EditeurFacadeLocal editeurFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,13 +66,22 @@ public class SupAdresse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère l'ID de l'adresse
         int id = Integer.parseInt(request.getParameter("adrId"));
+        //On vérifie d'abord que l'adresse n'est pas utilisée par quelqu'un
         if (personneFacade.findAll().stream().anyMatch(x -> x.getAdresseId().getAdresseId().equals(id))) {
             request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse ne peut pas être supprimée tant qu'elle est liée à une personne</span>");
-        } else {
+        }
+        if (editeurFacade.findAll().stream().anyMatch(x -> x.getAdresseId().getAdresseId().equals(id))) {
+            request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse ne peut pas être supprimée tant qu'elle est liée à une personne</span>");
+        }
+        else {
+            //Si elle n'est pas utilisée alors on peut la supprimée
             adresseFacade.remove(adresseFacade.find(id));
         }
+        //On rédirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

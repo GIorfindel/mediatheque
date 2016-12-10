@@ -62,9 +62,12 @@ public class RendreMedia extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère les paramètres du formulaire
         int a = Integer.parseInt(request.getParameter("aId"));
         int m = Integer.parseInt(request.getParameter("mId"));
+        //On parcours la liste d'emprunt pour supprimer l'emprunt de l'adhérent s'il est trouvé
         for (Emprunte e: emprunteFacade.findAll())
         {
             if(e.getEmpruntePK().getIdAdherent()==a && e.getEmpruntePK().getIdMedia()==m)
@@ -72,6 +75,7 @@ public class RendreMedia extends HttpServlet {
                 emprunteFacade.remove(e);
             }
         }
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

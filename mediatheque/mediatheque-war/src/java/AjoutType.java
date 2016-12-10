@@ -64,15 +64,21 @@ public class AjoutType extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //on récupère le nom du type à ajouter
         String nom = request.getParameter("nom");
+        //On vérifie que le nom correspond à l'expression régulière
         if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{2,20}", nom)) {
             request.getSession().setAttribute("errNomT", "<span class='err'>Le nom doit contenir 2 à 20 lettres</span>");
-        } else if (typeFacade.findAll().stream().anyMatch(x -> x.getNom().equals(nom))) {
+        }
+        //On parcours la liste des types pour vérifier que le type à ajouter n'y figure pas déjà
+        else if (typeFacade.findAll().stream().anyMatch(x -> x.getNom().equals(nom))) {
             request.getSession().setAttribute("errNomT", "<span class='err'>Le type existe déjà</span>");
         }
         else
         {
+            //Si le nom est correct alors on ajoute le nouveau type
             Type t = new Type();
             t.setNom(nom);
             typeFacade.create(t);

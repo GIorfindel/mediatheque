@@ -62,8 +62,11 @@ public class SupAdherent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère l'ID de l'adhérent
         int id = Integer.parseInt(request.getParameter("adId"));
+        //On supprime l'adhérent puis la personne corespondant à l'ID
         adherentFacade.remove(adherentFacade.find(id));
         personneFacade.remove(personneFacade.find(id));
         response.sendRedirect(referer);

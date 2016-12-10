@@ -47,6 +47,7 @@ public class Bibliothecairelist extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On renvoie la liste des bibliothécaires
         List lBib = bibliothecaireFacade.findAll();
         request.setAttribute("bibList", lBib);
         processRequest(request, response);

@@ -47,6 +47,7 @@ public class MediaEmpruntes extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On renvoie la liste des médias empruntés
         request.setAttribute("empLt", emprunteFacade.findAll());
         processRequest(request, response);
     }

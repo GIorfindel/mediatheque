@@ -75,15 +75,19 @@ public class SupMedia extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //on récupère l'ID su média à supprimer
         int med = Integer.parseInt(request.getParameter("mdId"));
         Edition e = editionFacade.find(med);
+        //Avant de supprimer le média on vérifie qu'aucun exmeplaire n'est emprunté
         if (emprunteFacade.findAll().stream().anyMatch(x -> x.getEmpruntePK().getIdMedia()==med))
         {
             request.getSession().setAttribute("errSupM", "<span class='err'>Vous ne pouvez pas supprimer un média tant qu'il est emprunté</span>");
         }
         else
         {
+            //Si le média est un livre alors on le supprime
             for (Livre l : livreFacade.findAll())
             {
                 if (l.getLivreId().getMediaId()==med)
@@ -91,6 +95,7 @@ public class SupMedia extends HttpServlet {
                     livreFacade.remove(l);
                 }
             }
+            //On supprime ensuite l'édition et le média
             editionFacade.remove(e);
             mediaFacade.remove(e.getIdMedia());
         }

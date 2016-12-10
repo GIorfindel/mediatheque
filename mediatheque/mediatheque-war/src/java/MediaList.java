@@ -52,6 +52,7 @@ public class MediaList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //List lTm = mediaFacade.findJoin();
+        //On renvoie la liste des éditions
         request.setAttribute("mdList", editionFacade.findAll());
         processRequest(request, response);
     }

@@ -61,6 +61,7 @@ public class EmprunterMedia extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Edition> ed = new ArrayList();
+        //Ici on ne renvoie pas toutes les éditions mais seulement celles dont des exemplaires sont encore en stock
         for (Edition e : editionFacade.findAll())
         {
             if (emprunteFacade.findAll().stream().filter(x -> x.getEmpruntePK().getIdMedia()==e.getIdMedia().getMediaId()).count() < e.getIdMedia().getNbexemplaires())
@@ -83,34 +84,42 @@ public class EmprunterMedia extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupère l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //on récupère les paramètres
         int aId = Integer.parseInt(request.getParameter("adId"));
         int mId = Integer.parseInt(request.getParameter("mdId"));
-        //Emprunte e = new Emprunte();
-        //e.setAdherent(adherentFacade.find(aId));
-        //e.setMedia(editionFacade.find(mId).getIdMedia());
         Edition ed = editionFacade.find(mId);
+        //On parcours la liste d'emprunts pour vérifier que l'adhérents n'a pas déjà un emprunt sur le même média en cours
         if (emprunteFacade.findAll().stream().anyMatch(x -> x.getEmpruntePK().getIdAdherent()==aId && x.getEmpruntePK().getIdMedia()==mId))
         {
             request.getSession().setAttribute("errEa", "<span class='err'>Cet adhérent à déjà emprunté ce livre</span>");
         }
+        //Ici on s'assure que le média désiré est toujours en stock
         else if(emprunteFacade.findAll().stream().filter(x -> x.getEmpruntePK().getIdAdherent()==aId && x.getEmpruntePK().getIdMedia()==mId).count() == ed.getIdMedia().getNbexemplaires())
         {
             request.getSession().setAttribute("errEa", "<span class='err'>Ce livre n'est plus disponible<span>");      
         }
         else
         {
+            //Si les inputs sont corrects alors on peut créer l'emprunt
+            //On créé la date d'emprunt qui correspond à la date du jour
             Date dEmprunt = new Date();
-            int noOfDays = 14; //i.e two weeks
+            //on définie la période maximale de l'emprunt
+            int noOfDays = 14; //deux semaines
+            //On instancie un calendrier pour pouvoir ajouter 14 jours à la date d'emprunt
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dEmprunt);            
             calendar.add(Calendar.DAY_OF_YEAR, noOfDays);
+            //On obtiens ainsi la date de retour
             Date dRetour = calendar.getTime();  
+            //On ajoute ensuite l'emprunt
             Emprunte e = new Emprunte(dEmprunt,dRetour,mId,aId);
             Adherent a = adherentFacade.find(aId);
             a.getEmprunteCollection().add(e);
             emprunteFacade.create(e);
         }
+        //On redirige vers la page appelante
         response.sendRedirect(referer);
         processRequest(request, response);
     }

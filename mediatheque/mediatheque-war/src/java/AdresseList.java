@@ -49,6 +49,7 @@ public class AdresseList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On renvoie la liste des adresses
         List lAdresses = adresseFacade.findAll();
         request.setAttribute("adressesList", lAdresses);
         processRequest(request, response);

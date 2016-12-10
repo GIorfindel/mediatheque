@@ -9,6 +9,7 @@
     <div>
         <form action="${pageContext.request.contextPath}/AjoutAuteurMedia" method="post">
             <lable>Media: </label><select name="mediaId">
+                <%--On importe la liste de médias puis on les ajoutes au select--%>
                 <c:import url="/MediaList"/>
                 <c:set var="mds" value="${requestScope.mdList}"/>
                 <c:forEach var="md" items="${mds}" varStatus="i">
@@ -16,6 +17,7 @@
                 </c:forEach>
             </select>
             <lable>Auteur: </label><select name="autId">
+                <%--On importe la liste de auteurs puis on les ajoutes au select--%>
                 <c:import url="/AuteurList"/>
                 <c:set var="auts" value="${requestScope.atList}"/>
                 <c:forEach var="aut" items="${auts}" varStatus="i">

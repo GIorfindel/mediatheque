@@ -46,6 +46,7 @@ public class AdherentList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On renvoit la liste des adhérents
         List lAd = adherentFacade.findAll();
         request.setAttribute("adList", lAd);
         processRequest(request, response);

@@ -28,11 +28,8 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         super(Personne.class);
     }
 
+    //On créer une fonction create avec un bibliothécaire en paramètre pour pour pouvoir le lier à la personne
     public void create(Personne p, Bibliothecaire b) {
-        //String s = "insert into Personne(nom,prenom,telephone,adresse_id) ";
-        //s = s + "values ('" + p.getNom() + "'," + p.getPrenom() + ",";
-        //s = s + p.getTelephone() + ",'" + p.getAdresseId() + "')";
-        //em.createNativeQuery(s).executeUpdate();
         em.persist(p);
         em.flush();
         b.setBibliothecaireId(p.getPersonneId());
@@ -40,6 +37,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         em.flush();
     }
     
+     //On créer une fonction create avec un adhérent en paramètre pour pour pouvoir le lier à la personne
      public void create(Personne p, Adherent a) {
         em.persist(p);
         em.flush();
@@ -47,7 +45,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         em.persist(a);
         em.flush();
     }
-     
+    //On créer une fonction create avec un auteur en paramètre pour pour pouvoir le lier à la personne
     public void create(Personne p, Auteur a) {
         em.persist(p);
         em.flush();

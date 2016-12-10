@@ -48,6 +48,7 @@ public class TypeList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On renvoie la liste des type
         List lTt = typeFacade.findAll();
         request.setAttribute("tpList", lTt);
         processRequest(request, response);

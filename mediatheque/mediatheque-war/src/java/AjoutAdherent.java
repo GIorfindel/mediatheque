@@ -70,12 +70,15 @@ public class AjoutAdherent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //On récupére l'adresse de la page appelante
         String referer = request.getHeader("Referer");
+        //On récupère les paramètres du formulaire
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String tel = request.getParameter("tel");
         String adrId = request.getParameter("adrId");
 
+        //On effectue la vérification des inputs au cas ou l'utilisateur n'utilise pas un navigateur compatible avec l'attribut pattern
         if (nom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", nom)) {
             request.getSession().setAttribute("errNom", "<span class='err'>Le nom doit contenir 5 à 20 lettres</span>");
         } else if (prenom.trim().equals("") || !Pattern.matches("[A-z|-]{5,20}", prenom)) {
@@ -85,6 +88,7 @@ public class AjoutAdherent extends HttpServlet {
         } else if (adrId == null || adrId.trim().equals("")) {
             request.getSession().setAttribute("errSadr", "<span class='err'>Vous devez d'abord ajouter une adresse</span>");
         } else {
+            //Si les inputs sont corrects alors on effectue l'ajout
             Personne p = new Personne();
             p.setNom(nom);
             p.setPrenom(prenom);
@@ -95,6 +99,7 @@ public class AjoutAdherent extends HttpServlet {
             ad.setPersonne(p);
             personneFacade.create(p,ad);
         }
+        //On redirige vers la page appelante
         response.sendRedirect("gestionAdherent.jsp");
         processRequest(request, response);
     }

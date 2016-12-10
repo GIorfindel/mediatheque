@@ -47,7 +47,8 @@ public class EditeurList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                List lEd = editeurFacade.findAll();
+        //On renvoie la liste des editeurs
+        List lEd = editeurFacade.findAll();
         request.setAttribute("edList", lEd);
         processRequest(request, response);
     }

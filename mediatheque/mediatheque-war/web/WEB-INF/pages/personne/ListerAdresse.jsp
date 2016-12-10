@@ -7,6 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="table ligne">
     <h3>Liste  des  adresses </h3>
+    <%--On importe la liste des adresses puis on les affiches--%>
     <c:import url="/AdresseList"/>
     <c:set var="adresses" value="${requestScope.adressesList}"/>
     <c:choose><c:when test="${sessionScope.errAdr!=null}"><br/>${errAdr}<c:remove var="errAdr"/></c:when><c:otherwise></c:otherwise></c:choose><br/>
@@ -35,6 +36,7 @@
     <div>
         <h5>Ajouter une adresse: </h5>
         <form action="${pageContext.request.contextPath}/AjoutAdresse" method="post">
+            <%--On importe la partie du formulaire qui concerne l'ajout d'adresse--%>
             <jsp:include page="/WEB-INF/pages/personne/AjoutAdresse.jsp"/>
             <input type='submit'><br/>
         </form>
