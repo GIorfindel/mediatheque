@@ -4,14 +4,17 @@
  * and open the template in the editor.
  */
 
+import entite.Adherent;
+import entite.AdherentFacadeLocal;
 import entite.Edition;
 import entite.EditionFacadeLocal;
+import entite.Emprunte;
 import entite.EmprunteFacadeLocal;
-import entite.Livre;
-import entite.LivreFacadeLocal;
-import entite.MediaFacadeLocal;
-import entite.TypeFacadeLocal;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,18 +26,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author florian
  */
-@WebServlet(urlPatterns = {"/SupMedia"})
-public class SupMedia extends HttpServlet {
+@WebServlet(urlPatterns = {"/EmprunterMedia"})
+public class EmprunterMedia extends HttpServlet {
     @EJB
     EditionFacadeLocal editionFacade;
     @EJB
-    MediaFacadeLocal mediaFacade;
+    AdherentFacadeLocal adherentFacade;
     @EJB
     EmprunteFacadeLocal emprunteFacade;
-    @EJB
-    LivreFacadeLocal livreFacade;
-    @EJB
-    TypeFacadeLocal typeFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,6 +60,15 @@ public class SupMedia extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List<Edition> ed = new ArrayList();
+        for (Edition e : editionFacade.findAll())
+        {
+            if (emprunteFacade.findAll().stream().filter(x -> x.getEmpruntePK().getIdMedia()==e.getIdMedia().getMediaId()).count() < e.getIdMedia().getNbexemplaires())
+            {
+                ed.add(e);
+            }
+        }
+        request.setAttribute("mdList", ed);
         processRequest(request, response);
     }
 
@@ -76,23 +84,32 @@ public class SupMedia extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int med = Integer.parseInt(request.getParameter("mdId"));
-        Edition e = editionFacade.find(med);
-        if (emprunteFacade.findAll().stream().anyMatch(x -> x.getEmpruntePK().getIdMedia()==med))
+        int aId = Integer.parseInt(request.getParameter("adId"));
+        int mId = Integer.parseInt(request.getParameter("mdId"));
+        //Emprunte e = new Emprunte();
+        //e.setAdherent(adherentFacade.find(aId));
+        //e.setMedia(editionFacade.find(mId).getIdMedia());
+        Edition ed = editionFacade.find(mId);
+        if (emprunteFacade.findAll().stream().anyMatch(x -> x.getEmpruntePK().getIdAdherent()==aId && x.getEmpruntePK().getIdMedia()==mId))
         {
-            request.getSession().setAttribute("errSupM", "<span class='err'>Vous ne pouvez pas supprimer un média tant qu'il est emprunté</span>");
+            request.getSession().setAttribute("errEa", "<span class='err'>Cet adhérent à déjà emprunté ce livre</span>");
+        }
+        else if(emprunteFacade.findAll().stream().filter(x -> x.getEmpruntePK().getIdAdherent()==aId && x.getEmpruntePK().getIdMedia()==mId).count() == ed.getIdMedia().getNbexemplaires())
+        {
+            request.getSession().setAttribute("errEa", "<span class='err'>Ce livre n'est plus disponible<span>");      
         }
         else
         {
-            for (Livre l : livreFacade.findAll())
-            {
-                if (l.getLivreId().getMediaId()==med)
-                {
-                    livreFacade.remove(l);
-                }
-            }
-            editionFacade.remove(e);
-            mediaFacade.remove(e.getIdMedia());
+            Date dEmprunt = new Date();
+            int noOfDays = 14; //i.e two weeks
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dEmprunt);            
+            calendar.add(Calendar.DAY_OF_YEAR, noOfDays);
+            Date dRetour = calendar.getTime();  
+            Emprunte e = new Emprunte(dEmprunt,dRetour,mId,aId);
+            Adherent a = adherentFacade.find(aId);
+            a.getEmprunteCollection().add(e);
+            emprunteFacade.create(e);
         }
         response.sendRedirect(referer);
         processRequest(request, response);

@@ -4,13 +4,8 @@
  * and open the template in the editor.
  */
 
-import entite.Edition;
-import entite.EditionFacadeLocal;
+import entite.Emprunte;
 import entite.EmprunteFacadeLocal;
-import entite.Livre;
-import entite.LivreFacadeLocal;
-import entite.MediaFacadeLocal;
-import entite.TypeFacadeLocal;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -23,18 +18,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author florian
  */
-@WebServlet(urlPatterns = {"/SupMedia"})
-public class SupMedia extends HttpServlet {
-    @EJB
-    EditionFacadeLocal editionFacade;
-    @EJB
-    MediaFacadeLocal mediaFacade;
+@WebServlet(urlPatterns = {"/RendreMedia"})
+public class RendreMedia extends HttpServlet {
     @EJB
     EmprunteFacadeLocal emprunteFacade;
-    @EJB
-    LivreFacadeLocal livreFacade;
-    @EJB
-    TypeFacadeLocal typeFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -76,23 +63,14 @@ public class SupMedia extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String referer = request.getHeader("Referer");
-        int med = Integer.parseInt(request.getParameter("mdId"));
-        Edition e = editionFacade.find(med);
-        if (emprunteFacade.findAll().stream().anyMatch(x -> x.getEmpruntePK().getIdMedia()==med))
+        int a = Integer.parseInt(request.getParameter("aId"));
+        int m = Integer.parseInt(request.getParameter("mId"));
+        for (Emprunte e: emprunteFacade.findAll())
         {
-            request.getSession().setAttribute("errSupM", "<span class='err'>Vous ne pouvez pas supprimer un média tant qu'il est emprunté</span>");
-        }
-        else
-        {
-            for (Livre l : livreFacade.findAll())
+            if(e.getEmpruntePK().getIdAdherent()==a && e.getEmpruntePK().getIdMedia()==m)
             {
-                if (l.getLivreId().getMediaId()==med)
-                {
-                    livreFacade.remove(l);
-                }
+                emprunteFacade.remove(e);
             }
-            editionFacade.remove(e);
-            mediaFacade.remove(e.getIdMedia());
         }
         response.sendRedirect(referer);
         processRequest(request, response);

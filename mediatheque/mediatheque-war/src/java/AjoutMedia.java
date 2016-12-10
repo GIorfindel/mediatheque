@@ -98,7 +98,10 @@ public class AjoutMedia extends HttpServlet {
             request.getSession().setAttribute("errNbE", "<span class='err'>Vous pouvez ajouter entre 1 et 20 exemplaires</span>");
         } else if (isbn.trim().equals("") && typeFacade.find(Integer.parseInt(type)).getNom().equals("livre")) {
             request.getSession().setAttribute("errIsbn", "<span class='err'>Vous devez renseigner l'ISBN si vous ajoutez un livre</span>");
-        } else if (typeFacade.find(Integer.parseInt(type)).getNom().equals("livre") && !Pattern.matches("[0-9]{13}", isbn)) {
+        }
+        else if (livreFacade.findAll().stream().anyMatch(x -> x.getIsbn().equals(isbn))) {
+            request.getSession().setAttribute("errIsbn", "<span class='err'>Ce numéro ISBN est déjà utilisé</span>");
+        }else if (typeFacade.find(Integer.parseInt(type)).getNom().equals("livre") && !Pattern.matches("[0-9]{13}", isbn)) {
             request.getSession().setAttribute("errIsbn", "<span class='err'>Le numéro ISBN doit contenir 13 chiffres</span>");
         } else if (type.trim().equals("")) {
             request.getSession().setAttribute("errType", "<span class='err'>Vous devez choisir une type</span>");
