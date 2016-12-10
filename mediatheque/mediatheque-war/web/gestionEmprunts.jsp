@@ -24,5 +24,6 @@
         </ul>
         <jsp:include page="/WEB-INF/pages/media/AjoutEmprunt.jsp"/>
         <jsp:include page="/WEB-INF/pages/media/RendreEmprunt.jsp"/>
+        <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </body>
 </html>

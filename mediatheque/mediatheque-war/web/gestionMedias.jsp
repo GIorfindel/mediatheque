@@ -27,5 +27,6 @@
         <jsp:include page="/WEB-INF/pages/media/AjoutType.jsp"/>
         <jsp:include page="/WEB-INF/pages/media/ListeType.jsp"/>
         <jsp:include page="/WEB-INF/pages/media/ListeMedia.jsp"/>
+        <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </body>
 </html>

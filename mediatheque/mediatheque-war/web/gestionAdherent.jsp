@@ -24,6 +24,7 @@
         <jsp:include page="/WEB-INF/pages/adherents/AjoutAdherent.jsp"/>
         <jsp:include page="/WEB-INF/pages/adherents/ListerAdherents.jsp"/>
         <jsp:include page="/WEB-INF/pages/personne/ListerAdresse.jsp"/>
+        <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </body>
 </html>
 

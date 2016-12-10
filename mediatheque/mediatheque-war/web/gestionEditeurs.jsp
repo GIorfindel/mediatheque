@@ -25,5 +25,6 @@
         <jsp:include page="/WEB-INF/pages/editeurs/ajoutEditeur.jsp"/>
         <jsp:include page="/WEB-INF/pages/editeurs/ListerEditeur.jsp"/>
         <jsp:include page="/WEB-INF/pages/personne/ListerAdresse.jsp"/>
+        <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </body>
 </html>

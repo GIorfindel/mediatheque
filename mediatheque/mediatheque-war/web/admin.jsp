@@ -24,5 +24,6 @@
         <jsp:include page="/WEB-INF/pages/bibliothecaire/AjoutBibliothecaire.jsp"/>
         <jsp:include page="/WEB-INF/pages/bibliothecaire/ListeBibliothecaire.jsp"/>
         <jsp:include page="/WEB-INF/pages/personne/ListerAdresse.jsp"/>
+        <jsp:include page="/WEB-INF/pages/footer.jsp"/>
     </body>
 </html>
