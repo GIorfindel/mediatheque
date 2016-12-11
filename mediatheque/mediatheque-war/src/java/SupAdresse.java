@@ -74,7 +74,7 @@ public class SupAdresse extends HttpServlet {
         if (personneFacade.findAll().stream().anyMatch(x -> x.getAdresseId().getAdresseId().equals(id))) {
             request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse ne peut pas être supprimée tant qu'elle est liée à une personne</span>");
         }
-        if (editeurFacade.findAll().stream().anyMatch(x -> x.getAdresseId().getAdresseId().equals(id))) {
+        else if (editeurFacade.findAll().stream().anyMatch(x -> x.getAdresseId().getAdresseId().equals(id))) {
             request.getSession().setAttribute("errAdr", "<span class='err'>L'adresse ne peut pas être supprimée tant qu'elle est liée à une personne</span>");
         }
         else {
