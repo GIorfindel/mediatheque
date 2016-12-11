@@ -89,3 +89,5 @@ create table Mediatheque.Emprunte(
   id_adherent integer references Adherent(adherent_id),
   primary key (dateRetour, dateEmprunt, id_media, id_adherent)
 );
+
+insert into Type(nom) values ('livre');
